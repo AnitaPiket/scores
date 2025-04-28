@@ -36,11 +36,12 @@ function createTeam(teamLetter, gameNr) {
 function createPlayer(teamLetter, gameNr, spelerNr) {
   return `
     <div class="speler" id="player-${teamLetter}-${gameNr}-${spelerNr}">
-      <label>Naam: <input type="text" id="naam-${teamLetter}-${gameNr}-${spelerNr}"></label><br>
+      <label>Naam: <input type="text" id="naam-${teamLetter}-${gameNr}-${spelerNr}" oninput="updateGemiddeldeScratch()"></label><br>
       <label>HCP: <input type="number" id="hcp-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr})"></label><br>
-      <label>Scratch: <input type="number" id="scratch-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr})"></label><br>
+      <label>Scratch: <input type="number" id="scratch-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr}); updateGemiddeldeScratch()"></label><br>
       <label>Score: <input type="number" id="score-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
       <label>Individueel Punt: <input type="number" id="indivPunt-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
+      <label>Gem. Scratch: <input type="number" id="gemScratch-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
     </div>
   `;
 }
@@ -131,6 +132,44 @@ function updateSamenvatting() {
     document.getElementById('bonusPunt').innerText = "Team B";
   } else {
     document.getElementById('bonusPunt').innerText = "Gelijkspel";
+  }
+}
+
+// Update gemiddelde scratch
+function updateGemiddeldeScratch() {
+  let spelersData = {};
+
+  for (let g = 1; g <= 4; g++) {
+    ['A', 'B'].forEach(team => {
+      for (let speler = 1; speler <= 2; speler++) {
+        const naam = document.getElementById(`naam-${team}-${g}-${speler}`)?.value.trim();
+        const scratch = parseInt(document.getElementById(`scratch-${team}-${g}-${speler}`)?.value) || null;
+
+        if (naam) {
+          if (!spelersData[naam]) {
+            spelersData[naam] = { total: 0, count: 0 };
+          }
+          if (scratch !== null && scratch !== 0) {
+            spelersData[naam].total += scratch;
+            spelersData[naam].count++;
+          }
+        }
+      }
+    });
+  }
+
+  for (let g = 1; g <= 4; g++) {
+    ['A', 'B'].forEach(team => {
+      for (let speler = 1; speler <= 2; speler++) {
+        const naam = document.getElementById(`naam-${team}-${g}-${speler}`)?.value.trim();
+        const gemInput = document.getElementById(`gemScratch-${team}-${g}-${speler}`);
+        if (naam && spelersData[naam] && spelersData[naam].count > 0) {
+          gemInput.value = Math.round(spelersData[naam].total / spelersData[naam].count);
+        } else {
+          gemInput.value = "";
+        }
+      }
+    });
   }
 }
 
