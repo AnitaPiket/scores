@@ -117,22 +117,38 @@ function updatePunten(gameNr) {
 function updateSamenvatting() {
   let totaalA = 0;
   let totaalB = 0;
+  let puntenA = 0;
+  let puntenB = 0;
 
   for (let g = 1; g <= 4; g++) {
     totaalA += parseInt(document.getElementById(`scoreTotalA-${g}`)?.value) || 0;
     totaalB += parseInt(document.getElementById(`scoreTotalB-${g}`)?.value) || 0;
+
+    for (let speler = 1; speler <= 2; speler++) {
+      puntenA += parseFloat(document.getElementById(`indivPunt-A-${g}-${speler}`)?.value) || 0;
+      puntenB += parseFloat(document.getElementById(`indivPunt-B-${g}-${speler}`)?.value) || 0;
+    }
+
+    puntenA += parseFloat(document.getElementById(`teamPuntA-${g}`)?.value) || 0;
+    puntenB += parseFloat(document.getElementById(`teamPuntB-${g}`)?.value) || 0;
+  }
+
+  if (totaalA > totaalB) {
+    document.getElementById('bonusPunt').innerText = "Team A";
+    puntenA += 1;
+  } else if (totaalB > totaalA) {
+    document.getElementById('bonusPunt').innerText = "Team B";
+    puntenB += 1;
+  } else {
+    document.getElementById('bonusPunt').innerText = "Gelijkspel";
+    puntenA += 0.5;
+    puntenB += 0.5;
   }
 
   document.getElementById('teamTotaalA').innerText = totaalA;
   document.getElementById('teamTotaalB').innerText = totaalB;
-
-  if (totaalA > totaalB) {
-    document.getElementById('bonusPunt').innerText = "Team A";
-  } else if (totaalB > totaalA) {
-    document.getElementById('bonusPunt').innerText = "Team B";
-  } else {
-    document.getElementById('bonusPunt').innerText = "Gelijkspel";
-  }
+  document.getElementById('totaalPuntenA').innerText = puntenA;
+  document.getElementById('totaalPuntenB').innerText = puntenB;
 }
 
 // Update gemiddelde scratch
