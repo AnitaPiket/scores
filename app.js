@@ -13,8 +13,6 @@ function createGames() {
       ${createTeam('B', g)}
       <div>
         <h3>Resultaat Game ${g}</h3>
-        <label>Team Scratch A: <input type="number" id="scratchTotalA-${g}" readonly></label><br>
-        <label>Team Scratch B: <input type="number" id="scratchTotalB-${g}" readonly></label><br>
         <label>Team Score A: <input type="number" id="scoreTotalA-${g}" readonly></label><br>
         <label>Team Score B: <input type="number" id="scoreTotalB-${g}" readonly></label><br>
         <label>Team Punt A: <input type="number" id="teamPuntA-${g}" readonly></label><br>
@@ -39,8 +37,8 @@ function createPlayer(teamLetter, gameNr, spelerNr) {
   return `
     <div class="speler" id="player-${teamLetter}-${gameNr}-${spelerNr}">
       <label>Naam: <input type="text" id="naam-${teamLetter}-${gameNr}-${spelerNr}"></label><br>
-      <label>HCP: <input type="number" id="hcp-${teamLetter}-${gameNr}-${spelerNr}" oninput="updateGame(${gameNr})"></label><br>
-      <label>Scratch: <input type="number" id="scratch-${teamLetter}-${gameNr}-${spelerNr}" oninput="updateGame(${gameNr})"></label><br>
+      <label>HCP: <input type="number" id="hcp-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr})"></label><br>
+      <label>Scratch: <input type="number" id="scratch-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr})"></label><br>
       <label>Score: <input type="number" id="score-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
       <label>Individueel Punt: <input type="number" id="indivPunt-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
     </div>
@@ -60,7 +58,6 @@ function showGame(nr) {
 // Update game berekeningen
 function updateGame(gameNr) {
   ['A', 'B'].forEach(team => {
-    let scratchTotal = 0;
     let scoreTotal = 0;
 
     for (let speler = 1; speler <= 2; speler++) {
@@ -68,11 +65,9 @@ function updateGame(gameNr) {
       const hcp = parseInt(document.getElementById(`hcp-${team}-${gameNr}-${speler}`).value) || 0;
       const score = scratch + hcp;
       document.getElementById(`score-${team}-${gameNr}-${speler}`).value = score;
-      scratchTotal += scratch;
       scoreTotal += score;
     }
 
-    document.getElementById(`scratchTotal${team}-${gameNr}`).value = scratchTotal;
     document.getElementById(`scoreTotal${team}-${gameNr}`).value = scoreTotal;
   });
 
@@ -117,7 +112,7 @@ function updatePunten(gameNr) {
   }
 }
 
-// Update samenvatting totaal
+// Update samenvatting totaal en bonus
 function updateSamenvatting() {
   let totaalA = 0;
   let totaalB = 0;
@@ -131,11 +126,11 @@ function updateSamenvatting() {
   document.getElementById('teamTotaalB').innerText = totaalB;
 
   if (totaalA > totaalB) {
-    document.getElementById('bonusPunt').innerText = 1;
+    document.getElementById('bonusPunt').innerText = "Team A";
   } else if (totaalB > totaalA) {
-    document.getElementById('bonusPunt').innerText = 0;
+    document.getElementById('bonusPunt').innerText = "Team B";
   } else {
-    document.getElementById('bonusPunt').innerText = 0.5;
+    document.getElementById('bonusPunt').innerText = "Gelijkspel";
   }
 }
 
