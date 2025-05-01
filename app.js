@@ -1,90 +1,127 @@
-// Spelergegevens
-const players = [
-  { id: 'p1', name: 'Alice', team: 'A' },
-  { id: 'p2', name: 'Bob', team: 'A' },
-  { id: 'p3', name: 'Carol', team: 'B' },
-  { id: 'p4', name: 'Dave', team: 'B' },
-];
+// Dynamisch Games maken
+function createGames() {
+  const gamesSection = document.getElementById('games');
+  for (let g = 1; g <= 4; g++) {
+    const gameDiv = document.createElement('div');
+    gameDiv.className = 'game';
+    gameDiv.id = 'game' + g;
+    if (g !== 1) gameDiv.style.display = 'none';
 
-// Teller voor strikes per speler
-const strikeCounts = {};
-players.forEach(player => {
-  strikeCounts[player.id] = 0;
-});
-
-// Huidige game (stel in op 5 om de winnaar te bepalen)
-let currentGame = 5;
-
-// Container voor de spelersknoppen
-const container = document.getElementById('players-container');
-
-// Functie om de knoppen te renderen
-function renderButtons() {
-  container.innerHTML = '';
-  players.forEach(player => {
-    const button = document.createElement('button');
-    button.classList.add('player-button');
-    button.id = player.id;
-    button.textContent = strikeCounts[player.id];
-
-    // Klikken verhoogt de teller
-    button.addEventListener('click', () => {
-      strikeCounts[player.id]++;
-      button.textContent = strikeCounts[player.id];
-      if (currentGame > 4) {
-        highlightWinners();
-      }
-    });
-
-    // Rechtermuisklik verlaagt de teller
-    button.addEventListener('contextmenu', (e) => {
-      e.preventDefault();
-      if (strikeCounts[player.id] > 0) {
-        strikeCounts[player.id]--;
-        button.textContent = strikeCounts[player.id];
-        if (currentGame > 4) {
-          highlightWinners();
-        }
-      }
-    });
-
-    container.appendChild(button);
-  });
+    gameDiv.innerHTML = `
+      <h2>Game ${g}</h2>
+      ${createTeam('A', g)}
+      ${createTeam('B', g)}
+      <div>
+        <h3>Resultaat Game ${g}</h3>
+        <label>Team Score A: <input type="number" id="scoreTotalA-${g}" readonly></label><br>
+        <label>Team Score B: <input type="number" id="scoreTotalB-${g}" readonly></label><br>
+        <label>Team Punt A: <input type="number" id="teamPuntA-${g}" readonly></label><br>
+        <label>Team Punt B: <input type="number" id="teamPuntB-${g}" readonly></label><br>
+      </div>
+    `;
+    gamesSection.appendChild(gameDiv);
+  }
 }
 
-// Functie om de winnaars per team te markeren
-function highlightWinners() {
-  // Reset alle knoppen
-  players.forEach(player => {
-    const btn = document.getElementById(player.id);
-    btn.classList.remove('winner');
-  });
+function createTeam(teamLetter, gameNr) {
+  return `
+    <div class="team" id="team${teamLetter}-game${gameNr}">
+      <h3>Team ${teamLetter}</h3>
+      ${createPlayer(teamLetter, gameNr, 1)}
+      ${createPlayer(teamLetter, gameNr, 2)}
+    </div>
+  `;
+}
 
-  // Groepeer spelers per team
-  const teams = {};
-  players.forEach(player => {
-    if (!teams[player.team]) {
-      teams[player.team] = [];
-    }
-    teams[player.team].push(player);
-  });
+function createPlayer(teamLetter, gameNr, spelerNr) {
+  return `
+    <div class="speler" id="player-${teamLetter}-${gameNr}-${spelerNr}">
+      <label>Naam: <input type="text" id="naam-${teamLetter}-${gameNr}-${spelerNr}" oninput="updateGemiddeldeScratch()"></label><br>
+      <label>HCP: <input type="number" id="hcp-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr})"></label><br>
+      <label>Scratch: <input type="number" id="scratch-${teamLetter}-${gameNr}-${spelerNr}" inputmode="numeric" oninput="updateGame(${gameNr}); updateGemiddeldeScratch()"></label><br>
+      <label>Score: <input type="number" id="score-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
+      <label>Individueel Punt: <input type="number" id="indivPunt-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
+      <label>Gem. Scratch: <input type="number" id="gemScratch-${teamLetter}-${gameNr}-${spelerNr}" readonly></label><br>
+      <button class="shootout-button" id="shootout-${teamLetter}-${gameNr}-${spelerNr}">0</button>
+    </div>
+  `;
+}
 
-  // Bepaal de winnaar per team
-  for (const team in teams) {
-    const teamPlayers = teams[team];
-    let maxCount = -1;
-    let winnerId = null;
-    teamPlayers.forEach(player => {
-      if (strikeCounts[player.id] > maxCount) {
-        maxCount = strikeCounts[player.id];
-        winnerId = player.id;
-      }
-    });
-    if (winnerId) {
-      document.getElementById(winnerId).classList.add('winner');
+// Toon juiste tab
+function showGame(nr) {
+  for (let i = 1; i <= 4; i++) {
+    const tab = document.getElementById('game' + i);
+    if (tab) {
+      tab.style.display = (i === nr) ? 'block' : 'none';
     }
   }
 }
 
-// Initialiseer de knoppen
-renderButtons();
+// Update game berekeningen
+function updateGame(gameNr) {
+  // jouw bestaande berekeningen
+}
+
+function updateGemiddeldeScratch() {
+  // jouw bestaande berekeningen
+}
+
+// Hou bij hoeveel strikes per speler
+const shootoutCounts = {};
+
+function setupShootoutHandlers() {
+  for (let g = 1; g <= 4; g++) {
+    ['A', 'B'].forEach(team => {
+      for (let s = 1; s <= 2; s++) {
+        const id = `shootout-${team}-${g}-${s}`;
+        const btn = document.getElementById(id);
+        if (!btn) continue;
+
+        const key = `${team}-${s}`;
+        shootoutCounts[key] = shootoutCounts[key] || 0;
+
+        btn.addEventListener('click', () => {
+          shootoutCounts[key]++;
+          btn.textContent = shootoutCounts[key];
+          if (g === 4) markShootoutWinners();
+        });
+
+        btn.addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+          shootoutCounts[key] = Math.max(0, shootoutCounts[key] - 1);
+          btn.textContent = shootoutCounts[key];
+          if (g === 4) markShootoutWinners();
+        });
+      }
+    });
+  }
+}
+
+function markShootoutWinners() {
+  ['A', 'B'].forEach(team => {
+    let max = -1;
+    let topId = null;
+    for (let s = 1; s <= 2; s++) {
+      const key = `${team}-${s}`;
+      if ((shootoutCounts[key] || 0) > max) {
+        max = shootoutCounts[key];
+        topId = `shootout-${team}-4-${s}`;
+      }
+    }
+
+    for (let s = 1; s <= 2; s++) {
+      const btn = document.getElementById(`shootout-${team}-4-${s}`);
+      if (btn) btn.classList.remove('winner');
+    }
+
+    if (topId) {
+      const winnerBtn = document.getElementById(topId);
+      if (winnerBtn) winnerBtn.classList.add('winner');
+    }
+  });
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  createGames();
+  setupShootoutHandlers();
+});

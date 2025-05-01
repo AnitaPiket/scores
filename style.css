@@ -28,3 +28,20 @@ body {
   background-color: #4caf50;
   color: #fff;
 }
+.shootout-button {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  background-color: #e0e0e0;
+  color: #000;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.shootout-button.winner {
+  background-color: #4caf50;
+  color: #fff;
+}
