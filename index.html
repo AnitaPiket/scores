@@ -1,1 +1,48 @@
-<!-- index.html inhoud versie 6 -->
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bowling Scores PWA</title>
+  <link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+
+</head>
+<body>
+  <section id="speeldag-instellingen">
+    <h1>Speeldag Instellingen</h1>
+    <label>Baan A: <input type="number" id="baannummerA" inputmode="numeric"></label><br>
+    <label>Baan B: <input type="number" id="baannummerB" inputmode="numeric"></label><br>
+    <label>Speeldag: <input type="number" id="speeldag" inputmode="numeric"></label><br>
+    <label>Datum: <input type="date" id="datum"></label><br>
+    <label>Teamnaam A: <input type="text" id="teamnaamA" placeholder="[naam team]"></label> 
+    <span>Totaal Punten A: <span id="totaalPuntenA">0</span></span><br>
+    <label>Teamnaam B: <input type="text" id="teamnaamB" placeholder="[naam team]"></label> 
+    <span>Totaal Punten B: <span id="totaalPuntenB">0</span></span><br>
+  </section>
+
+  <nav>
+    <button onclick="showGame(1)" id="tab1">Game 1</button>
+    <button onclick="showGame(2)" id="tab2">Game 2</button>
+    <button onclick="showGame(3)" id="tab3">Game 3</button>
+    <button onclick="showGame(4)" id="tab4">Game 4</button>
+  </nav>
+
+  <section id="games">
+    <!-- Games worden dynamisch geladen -->
+  </section>
+
+  <section id="onderste-regel">
+    <button onclick="resetApp()">Reset</button>
+    <button onclick="exportPDF()">Exporteer PDF</button>
+    <div>
+      <h2>Samenvatting</h2>
+      <p>Team Totaal A: <span id="teamTotaalA">0</span></p>
+      <p>Team Totaal B: <span id="teamTotaalB">0</span></p>
+      <p>Bonus voor: <span id="bonusPunt">-</span></p>
+    </div>
+  </section>
+
+  <script src="app.js"></script>
+</body>
+</html>
