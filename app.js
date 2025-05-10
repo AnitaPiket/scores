@@ -93,20 +93,21 @@ function updateChallengeHighlight(team) {
   const scores = values.map(v => v.value);
   const max = Math.max(...scores);
   const min = Math.min(...scores);
-  const allSame = scores.every(v => v === max) && max !== 0;
+  const allSame = scores[0] === scores[1] && scores[0] !== 0;
 
   values.forEach(v => {
     v.el.style.backgroundColor = ""; // reset
 
     if (allSame) {
       v.el.style.backgroundColor = "#FFD700"; // geel
-    } else if (v.value === max && max !== min) {
+    } else if (v.value === max && v.value !== 0) {
       v.el.style.backgroundColor = "#FF4D4D"; // rood
-    } else if (v.value === min && max !== min) {
+    } else if (v.value === min && v.value !== 0) {
       v.el.style.backgroundColor = "#4CAF50"; // groen
     }
   });
 }
+
 
 function showGame(nr) {
   for (let i = 1; i <= 4; i++) {
