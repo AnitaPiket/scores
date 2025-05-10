@@ -90,23 +90,30 @@ function updateChallengeHighlight(team) {
     }
   }
 
-  const scores = values.map(v => v.value);
-  const max = Math.max(...scores);
-  const min = Math.min(...scores);
-  const allSame = scores[0] === scores[1] && scores[0] !== 0;
+  const [a, b] = values;
 
-  values.forEach(v => {
-    v.el.style.backgroundColor = ""; // reset eerst
+  // beide nul → geen kleur
+  if (a.value === 0 && b.value === 0) {
+    a.el.style.backgroundColor = "";
+    b.el.style.backgroundColor = "";
+    return;
+  }
 
-    if (allSame) {
-      v.el.style.backgroundColor = "#FFD700"; // geel
-    } else if (v.value === max && v.value !== 0) {
-      v.el.style.backgroundColor = "#FF4D4D"; // rood
-    } else if (v.value === min && v.value !== 0 && v.value !== max) {
-      v.el.style.backgroundColor = "#4CAF50"; // groen
-    }
-    // anders: geen kleur (0 of neutraal)
-  });
+  // gelijkstand ≠ 0 → geel
+  if (a.value === b.value) {
+    a.el.style.backgroundColor = "#FFD700"; // geel
+    b.el.style.backgroundColor = "#FFD700";
+    return;
+  }
+
+  // anders: hoogste rood, laagste groen
+  if (a.value > b.value) {
+    a.el.style.backgroundColor = "#FF4D4D"; // rood
+    b.el.style.backgroundColor = "#4CAF50"; // groen
+  } else {
+    a.el.style.backgroundColor = "#4CAF50"; // groen
+    b.el.style.backgroundColor = "#FF4D4D"; // rood
+  }
 }
 
 
