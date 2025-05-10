@@ -93,11 +93,10 @@ function updateChallengeHighlight(team) {
   const scores = values.map(v => v.value);
   const max = Math.max(...scores);
   const min = Math.min(...scores);
-
   const allSame = scores.every(v => v === max) && max !== 0;
 
   values.forEach(v => {
-    v.el.style.backgroundColor = "";
+    v.el.style.backgroundColor = ""; // reset
 
     if (allSame) {
       v.el.style.backgroundColor = "#FFD700"; // geel
@@ -108,7 +107,6 @@ function updateChallengeHighlight(team) {
     }
   });
 }
-
 
 function showGame(nr) {
   for (let i = 1; i <= 4; i++) {
