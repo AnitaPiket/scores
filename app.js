@@ -102,10 +102,10 @@ function updateChallengeHighlight(team) {
       v.el.style.backgroundColor = "#FFD700"; // geel
     } else if (v.value === max && v.value !== 0) {
       v.el.style.backgroundColor = "#FF4D4D"; // rood
-    } else if (v.value === min && v.value !== 0) {
+    } else if (v.value === min && v.value !== 0 && v.value !== max) {
       v.el.style.backgroundColor = "#4CAF50"; // groen
     }
-    // anders geen kleur (0 of ongedefinieerd)
+    // anders: geen kleur (0 of neutraal)
   });
 }
 
