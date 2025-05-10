@@ -96,7 +96,7 @@ function updateChallengeHighlight(team) {
   const allSame = scores[0] === scores[1] && scores[0] !== 0;
 
   values.forEach(v => {
-    v.el.style.backgroundColor = ""; // reset
+    v.el.style.backgroundColor = ""; // reset eerst
 
     if (allSame) {
       v.el.style.backgroundColor = "#FFD700"; // geel
@@ -105,6 +105,7 @@ function updateChallengeHighlight(team) {
     } else if (v.value === min && v.value !== 0) {
       v.el.style.backgroundColor = "#4CAF50"; // groen
     }
+    // anders geen kleur (0 of ongedefinieerd)
   });
 }
 
