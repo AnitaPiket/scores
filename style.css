@@ -79,3 +79,121 @@ nav .active-tab {
   background-color: orange;
   color: #fff;
 }
+/* === LOGIN SCHERM STYLING === */
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'SF Pro Display', Roboto, sans-serif;
+}
+
+.login-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.login-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 40px;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  border: 1.5px solid #9C9CA3;
+  border-radius: 4px;
+  height: 44px;
+  margin: 10px 0;
+  width: 202px;
+  position: relative;
+}
+
+.input-icon {
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.input-icon.left {
+  left: 8px;
+}
+
+.input-icon.right {
+  right: 8px;
+}
+
+select.team-select {
+  width: 100%;
+  height: 100%;
+  padding: 0 40px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  appearance: none;
+  background: transparent;
+  color: #000;
+}
+
+.pin-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  gap: 8px;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border: 2px solid #139239;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.dot.filled {
+  background-color: #139239;
+}
+
+.pins {
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  justify-items: center;
+  pointer-events: auto;
+}
+
+.pin {
+  width: 44px;
+  height: auto;
+  cursor: pointer;
+}
+

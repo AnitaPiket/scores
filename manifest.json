@@ -1,6 +1,6 @@
 {
   "name": "Bowling Scores PWA",
-  "short_name": "BowlingPWA",
+  "short_name": "Scores",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#ffffff",

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BowlingScores - Login</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="login-container">
+   <img src="login-bg.jpg" alt="Bowling Background" class="background">
+
+    <div class="login-overlay">
+      <!-- Team Select -->
+      <div class="input-wrapper">
+        <img src="team 139239.svg" class="input-icon left">
+        <select id="teamSelect" class="team-select">
+          <option value="">Selecteer team</option>
+          <!-- Dynamisch via Firebase -->
+        </select>
+        <img src="dropdown 5300B9.svg" class="input-icon right">
+      </div>
+
+      <!-- PIN Dots -->
+      <div class="input-wrapper">
+        <img src="key 139239.svg" class="input-icon left">
+        <div class="pin-dots">
+          <span class="dot" data-index="0"></span>
+          <span class="dot" data-index="1"></span>
+          <span class="dot" data-index="2"></span>
+          <span class="dot" data-index="3"></span>
+          <span class="dot" data-index="4"></span>
+        </div>
+        <img src="backspace 5300B9.svg" class="input-icon right" id="backspaceBtn">
+      </div>
+
+      <!-- Hidden PIN Buffer -->
+      <input type="password" id="pinBuffer" maxlength="5" style="display:none">
+
+      <!-- Pin SVGs clickable -->
+      <div class="pins">
+        <img src="pin 1.svg" class="pin" data-pin="1">
+        <img src="pin 2.svg" class="pin" data-pin="2">
+        <img src="pin 3.svg" class="pin" data-pin="3">
+        <img src="pin 4.svg" class="pin" data-pin="4">
+        <img src="pin 5.svg" class="pin" data-pin="5">
+        <img src="pin 6.svg" class="pin" data-pin="6">
+        <img src="pin 7.svg" class="pin" data-pin="7">
+        <img src="pin 8.svg" class="pin" data-pin="8">
+        <img src="pin 9.svg" class="pin" data-pin="9">
+        <img src="pin 10.svg" class="pin" data-pin="10">
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
